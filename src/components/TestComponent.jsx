@@ -12,7 +12,7 @@ const TestPanel = styled.div`
 `;
 
 export const TestComponent =({
-    title, listItems
+    title, listItems, onButtonClick
 })=>(
    <TestPanel>
                      <h4>{title}</h4>
@@ -20,18 +20,21 @@ export const TestComponent =({
              {listItems.map((item,index) => {
                
             return (
-               
+           
              <div key={index}>{item.label}</div>
-             
+            
             );
           })}
-        
+                     <button onClick={onButtonClick}>Test</button>
+
    </TestPanel>
+   
 );
 
 TestComponent.propTypes ={
     listItems: PropTypes.instanceOf(Array).isRequired,
     title: PropTypes.string.isRequired,
+    onButtonClick: PropTypes.func.isRequired,
   
 };
 

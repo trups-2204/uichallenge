@@ -4,21 +4,27 @@ import { compose} from 'recompose';
 import { connect } from 'react-redux';
 import { actions } from '../redux/modules/test.module'
 import { getSelectedItem, getListItems} from '../redux/selectors/uiSelector';
-import { TestComponent, LogOut} from '../components';
+import {TestComponent} from '../components';
 
 export class TestContainer extends React.Component{
 
     static propTypes = {
-     
         selectedItem: PropTypes.number.isRequired,
         listItems: PropTypes.arrayOf(PropTypes.shape()).isRequired,
         setItems: PropTypes.arrayOf(PropTypes.shape()).isRequired,
         setSelectedItem: PropTypes.func.isRequired
     }
 
-    componentDidMount() {
-        const { setSelectedItem} = this.props;
-        var modifiedList = [{'label':'Test User'}];
+    static defaultProps ={
+        setSelectedItem: () =>{},
+        setItems:() =>{},
+        listItems:[]
+    }
+
+    onButtonClick =()=>{
+        const { setSelectedItem,  setItems} = this.props;
+        setSelectedItem(4);
+        var modifiedList = [];
 
         fetch('http://jsonplaceholder.typicode.com/users')
             .then(res => res.json())
@@ -27,41 +33,38 @@ export class TestContainer extends React.Component{
                     modifiedList.push({label: item.name});
                 })
                 console.log('modifiedList',modifiedList);
-                setSelectedItem(modifiedList);
+                setItems(modifiedList);
             })
             .catch(console.log)
-
-            console.log('modifiedList*****',modifiedList);
-
-            setSelectedItem(modifiedList);
-
     }
+    componentDidMount() {
+        
 
-    static defaultProps ={
-        setSelectedItem: () =>{},
-        setItems:() =>{},
-        listItems:[{label:'Test 1'},{label:'Test 2'}]
+
     }
 
     render(){
-        const {listItems} = this.props;
+
+      const {listItems}= this.props;
         return (
             <div>
-              <TestComponent listItems={listItems} title="Test Component Title"></TestComponent>
-            </div>
+            <TestComponent listItems={listItems} title="Test Component Title" onButtonClick={this.onButtonClick}></TestComponent>
+          </div>
           );
     }
 
    
 }
 const mapStateToProps = state => ({
+    
     listItems: getListItems(state),
     selectedItem: getSelectedItem(state),
+
 })
 
 const mapDispatchToProps = {
-    setSelectedItem: actions.challenge.setSelectedItem,
-    setItems: actions.challenge.setItems,
+    setSelectedItem: actions.test.setSelectedItem,
+    setItems: actions.test.setItems,
 
 };
 

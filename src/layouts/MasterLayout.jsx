@@ -17,7 +17,6 @@ import { getSignedOut} from '../redux/selectors/uiSelector';
     };
 
     onSignout = () =>{    
-        console.log('button clicked signout');
       const { isSignedOut, setSignOut} = this.props;
       setSignOut(!isSignedOut);
     };
@@ -47,7 +46,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps ={
-    setSignOut: actions.challenge.setSignOut,
+    setSignOut: actions.test.setSignOut,
 };
 
 const enhance = compose ( connect(mapStateToProps, mapDispatchToProps));
